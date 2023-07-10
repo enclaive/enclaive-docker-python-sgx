@@ -1,14 +1,20 @@
+libos.entrypoint = "/premain/premain-libos"
 loader.entrypoint = "file:{{ gramine.libos }}"
 
-libos.entrypoint = "/usr/bin/python3"
-loader.argv_src_file = "file:/app/args.txt"
+loader.argv0_override = "/usr/bin/python3"
 
 loader.log_level = "error"
+loader.log_file = "log.txt"
 
 loader.env.LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}"
 loader.env.MALLOC_ARENA_MAX = "1"
 
 sgx.nonpie_binary = true
+
+loader.env.EDG_MARBLE_TYPE = { passthrough = true }
+loader.env.EDG_MARBLE_COORDINATOR_ADDR = { passthrough = true }
+loader.env.EDG_MARBLE_UUID_FILE = { passthrough = true }
+loader.env.EDG_MARBLE_DNS_NAMES = { passthrough = true }
 
 
 fs.mounts = [
@@ -17,24 +23,41 @@ fs.mounts = [
     { path = "/usr",              uri = "file:/usr" },
     { path = "/lib",              uri = "file:{{ gramine.runtimedir() }}" },
     { path = "{{ arch_libdir }}", uri = "file:{{ arch_libdir }}" },
-    { path = "/app",              uri = "file:/app" },
 
+     #premain libos
+    { path = "/premain",          uri = "file:/premain" },
+
+    { path = "/app",        uri = "file:/app", type = "encrypted", key_name = "py_data" }
 ]
+
 sgx.rpc_thread_num = 16
 sgx.thread_num = 16
 sgx.enclave_size = "2G"
 
-sgx.debug = false
+sgx.debug = true
 sgx.isvprodid = 1
 sgx.isvsvn    = 1
+
+sgx.remote_attestation = "dcap"
 
 sgx.trusted_files = [
     "file:{{ gramine.libos }}",
     "file:{{ gramine.runtimedir() }}/",
     "file:{{ arch_libdir }}/",
-    "file:/app/args.txt",
     "file:/usr/bin/python3",
-    "file:/app/main.py",
     "file:/usr/lib/python3.10/",
     "file:/etc/localtime",
+    "file:/premain/premain-libos",
+]
+
+sgx.allowed_files = [
+
+
+  "file:/etc/ethers",
+  "file:/etc/hosts",
+  "file:/etc/localtime",
+  "file:/etc/resolv.conf",
+  "file:/etc/host.conf",
+  # MARBLERUN: allow the marble's uuid file
+  "file:uuid"
 ]

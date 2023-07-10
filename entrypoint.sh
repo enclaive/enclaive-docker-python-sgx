@@ -2,5 +2,5 @@
 
 /aesmd.sh
 
-gramine-sgx-get-token --output app.token --sig app.sig
-gramine-sgx app
+gramine-sgx-get-token --output py.token --sig py.sig
+gramine-sgx py

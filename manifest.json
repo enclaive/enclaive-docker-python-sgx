@@ -1,0 +1,56 @@
+{
+    "Packages": {
+        "py": {
+            "Debug": true,
+            "UniqueID": "e7f3439e437dc191f3df4c627218625ffbaa75eff42680281132c677b2e6c546"
+        }
+    },
+    "Marbles": {
+        "py_marble": {
+            "Package": "py",
+            "Parameters": {
+                "Files": {
+                    "/dev/attestation/keys/py_data": "{{ raw .Secrets.pyDataKey.Private }}"
+                },
+                "Env": null,
+                "Argv": [
+                    "cat",
+                    "/app/main.py"
+                ]
+            }
+        }
+    },
+    "Secrets": {
+        "pyDataKey": {
+            "Type": "symmetric-key",
+            "Size": 128,
+            "UserDefined": true
+        }
+    },
+    "Users": {
+        "portainer": {
+            "Certificate": "-----BEGIN CERTIFICATE-----\nMIIC4jCCAcoCFFoA9VUxsdKLTMMIF5Fd6H/bjikYMA0GCSqGSIb3DQEBCwUAMDUx\nEzARBgNVBAoMClJlZGlzIFRlc3QxHjAcBgNVBAMMFUNlcnRpZmljYXRlIEF1dGhv\ncml0eTAeFw0yMzAyMTIxMjQ2MjBaFw0zMzAyMDkxMjQ2MjBaMCYxEzARBgNVBAoM\nClJlZGlzIFRlc3QxDzANBgNVBAMMBlNlcnZlcjCCASIwDQYJKoZIhvcNAQEBBQAD\nggEPADCCAQoCggEBANEBKEBzFJ9zwYdgbEH3+DiK0TEFmnwyb4b/IacPWPlX92a5\nVsU8k5o8KWg9FllfZlE5AMuAG2ngvHbNlKh8kcpUxtD057x96vMM+USBLhSwoPKN\nH7YzB+XBa6dVLgi/Dq2y7PeZ/afteQWpBl60FpnK/QMoRmEckWkO15vluAYtSBJG\nc9y1Ms0tvj2p7KedKTdHJRu1nFbDcfbKDaujr6rIor2Kasu/EUvB+9iFQE4BKV35\nXEhb+QUUnFW0tzgcwO67XW+H6sC4Vtc0EqJzt4Ti3daYhoZUyzbD05Iw1OauL//E\nJ0axErY/5+ghJn1wVErZGT68+n2m4uJBFk7twxMCAwEAATANBgkqhkiG9w0BAQsF\nAAOCAQEAH7PBfiDX2VS5aCQ3TqlMYf/amv/SIMDdAS/jWGf8MMhuZCf1zUPjGnZf\nN5V/ZAyTLNnXMu6LRE62S7T8qhTByBb858NdI0KlOnI4Kn0iZ7EXj2toO0+rC69W\nwbsF9L/Jjkc4XssPcObWWUN6dhnPUPt2Pm/Qz9GnMwbuFmqxdfRlkqCqi2QYnUNM\n40n8wVqWeMFEn0L6SY7ZrS/Z7wawYJsdldxU5MH5cPrgYf48DH64UKJ1DySmeHQ8\nZKItYr0Kwfhu6QxoFR7RHWTw7PUtpzyzFeHAFVt5fWxNk444MB17UZc0tnk6WOOe\nOkMQ1xokENJFNzA3fs5wT46G9we7xw==\n-----END CERTIFICATE-----\n",
+            "Roles": [
+                "updatePackage",
+                "secretManager"
+            ]
+        }
+    },
+    "Roles": {
+        "secretManager": {
+            "ResourceType": "Secrets",
+            "ResourceNames": [],
+            "Actions": [
+                "ReadSecret",
+                "WriteSecret"
+            ]
+        },
+        "updatePackage": {
+            "ResourceType": "Packages",
+            "ResourceNames": null,
+            "Actions": [
+                "UpdateSecurityVersion"
+            ]
+        }
+    }
+}
