@@ -27,32 +27,20 @@ fs.mounts = [
      #premain libos
     { path = "/premain",          uri = "file:/premain" },
 
-    { path = "/app",        uri = "file:/app", type = "encrypted", key_name = "py_data" }
+    { path = "/app",        uri = "file:/app" }
 ]
 
 sgx.rpc_thread_num = 16
 sgx.thread_num = 16
 sgx.enclave_size = "2G"
 
-sgx.debug = true
+sgx.debug = false
 sgx.isvprodid = 1
 sgx.isvsvn    = 1
 
 sgx.remote_attestation = "dcap"
 
-sgx.trusted_files = [
-    "file:{{ gramine.libos }}",
-    "file:{{ gramine.runtimedir() }}/",
-    "file:{{ arch_libdir }}/",
-    "file:/usr/bin/python3",
-    "file:/usr/lib/python3.10/",
-    "file:/etc/localtime",
-    "file:/premain/premain-libos",
-]
-
 sgx.allowed_files = [
-
-
   "file:/etc/ethers",
   "file:/etc/hosts",
   "file:/etc/localtime",
@@ -60,4 +48,17 @@ sgx.allowed_files = [
   "file:/etc/host.conf",
   # MARBLERUN: allow the marble's uuid file
   "file:uuid"
+]
+
+sgx.trusted_files = [
+    "file:{{ gramine.libos }}",
+    "file:{{ gramine.runtimedir() }}/",
+    "file:{{ arch_libdir }}/",
+    "file:/usr/bin/python3",
+    "file:/usr/bin/python3.10",
+    "file:/usr/lib/python3/",
+    "file:/usr/lib/python3.10/",
+    "file:/manifest/entrypoint.sh",
+    "file:/premain/premain-libos",
+    "file:/app/",
 ]

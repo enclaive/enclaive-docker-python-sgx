@@ -2,7 +2,7 @@
     "Packages": {
         "py": {
             "Debug": true,
-            "UniqueID": "e7f3439e437dc191f3df4c627218625ffbaa75eff42680281132c677b2e6c546"
+            "UniqueID": "ec3c25654f03e05e5628f487819e3c05ea8bb882286085278cfeff0631eadc96"
         }
     },
     "Marbles": {
@@ -10,22 +10,16 @@
             "Package": "py",
             "Parameters": {
                 "Files": {
-                    "/dev/attestation/keys/py_data": "{{ raw .Secrets.pyDataKey.Private }}"
                 },
                 "Env": null,
                 "Argv": [
-                    "cat",
-                    "/app/main.py"
+                    "/usr/bin/python3",
+                    "/app/helloworld.py"
                 ]
             }
         }
     },
     "Secrets": {
-        "pyDataKey": {
-            "Type": "symmetric-key",
-            "Size": 128,
-            "UserDefined": true
-        }
     },
     "Users": {
         "portainer": {

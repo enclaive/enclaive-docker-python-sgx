@@ -19,15 +19,15 @@ RUN apt-get update \
 
 WORKDIR /manifest
 
-COPY ./py.manifest.template /manifest/
+COPY ./py.manifest.template ./entrypoint.sh /manifest/
 
-RUN --mount=type=secret,id=signingkey gramine-manifest -Darch_libdir=/lib/x86_64-linux-gnu py.manifest.template py.manifest \
-    && gramine-sgx-sign --key "/run/secrets/signingkey" --manifest py.manifest --output py.manifest.sgx \
-    && gramine-sgx-get-token -s ./py.sig -o attributes \
-    && cat ./attributes \
-    && sed -i 's,https://localhost:8081/sgx/certification/v3/,https://172.17.0.1:8081/sgx/certification/v3/,g' /etc/sgx_default_qcnl.conf \
-    && sed -i 's,"use_secure_cert": true,"use_secure_cert": false,g' /etc/sgx_default_qcnl.conf
+# RUN --mount=type=secret,id=signingkey gramine-manifest -Darch_libdir=/lib/x86_64-linux-gnu py.manifest.template py.manifest \
+#     && gramine-sgx-sign --key "/run/secrets/signingkey" --manifest py.manifest --output py.manifest.sgx \
+#     && gramine-sgx-get-token -s ./py.sig -o attributes \
+#     && cat ./attributes \
+#     && sed -i 's,https://localhost:8081/sgx/certification/v3/,https://172.17.0.1:8081/sgx/certification/v3/,g' /etc/sgx_default_qcnl.conf \
+#     && sed -i 's,"use_secure_cert": true,"use_secure_cert": false,g' /etc/sgx_default_qcnl.conf
 
-EXPOSE 3306/tcp
+# EXPOSE 3306/tcp
 
-# ENTRYPOINT [ "/app/entrypoint.sh" ]
+ENTRYPOINT [ "/manifest/entrypoint.sh" ]
